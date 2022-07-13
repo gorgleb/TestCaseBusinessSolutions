@@ -1,0 +1,56 @@
+﻿@model TestCaseBusinessSolutions.Models.ViewModels.OrderVM
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="Order.Id" hidden />
+     <div class="row">
+         <div class="col-10">
+                 <div class="border p-3 mt-4 row" >
+            <div class="row col-12 pb-2">
+                <h2 class="text-primary">@(Model.Order.Id!=0?"Update":"Create") Order</h2>
+                <hr />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Order.Number"></label>
+                <input asp-for="Order.Number" class="form-control" />
+                <span asp-validation-for="Order.Number" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Order.Date"></label>
+                <input asp-for="Order.Date" class="form-control" />
+                <span asp-validation-for="Order.Date" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3 col-6">
+                <label asp-for="Order.ProviderId"></label>
+                <select asp-for="Order.ProviderId" asp-items="@Model.ProviderList" class="form-select">
+                    <option disabled-selected>--Select Provider--</option>
+                </select>
+                <span asp-validation-for="Order.ProviderId" class="text-danger"></span>
+            </div>
+            
+            <div class="col-12">
+                @if(Model.Order.Id!=0)
+            {
+            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+            }
+            else
+            {
+            <button type="submit"  class="btn btn-primary" style="width:150px">Create</button>
+            }
+            <a asp-controller="Order" asp-action="Index" class="btn btn-primary" style="width:150px">
+                Back to list    
+            </a>
+            </div> 
+         </div>
+         </div>
+         
+         </div>
+     </div>
+    
+</form>
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    
+}
