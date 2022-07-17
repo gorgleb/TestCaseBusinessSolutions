@@ -16,10 +16,12 @@ namespace TestCaseBusinessSolutions.DataAccess.Repository
             _db = db;
             Provider = new ProviderRepository(_db);
             Order = new OrderRepository(_db);
+            OrderItem = new OrderItemRepository(_db);
         }
 
         public IProviderRepository Provider{ get; private set; }
         public IOrderRepository Order { get; private set; }
+        public IOrderItemRepository OrderItem { get; private set; }
 
         public void Save()
         {

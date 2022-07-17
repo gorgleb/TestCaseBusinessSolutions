@@ -1,7 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<div class="container p-3">
+<div class="row pt-4">
+    <div class="col-6 text-end">
+            <h2 class="text-primary">
+                Order List
+            </h2>
+        </div>
+<div class="col-6 text-end">
+            <a  asp-controller="Order" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>&nbsp;Create New Order
+            </a>
+        </div>
+        </div>
    <table class="table table-bordered table-striped" id="tblData" style="width:100%">
         <thead>
             <tr>
@@ -18,11 +30,18 @@
                     Provider
                 </th>
                 
-                <th></th>
+                <th>
+                    Update
+                </th>
+                <th>
+                    Delete
+                </th>
+           
             </tr>
         </thead>
 
     </table>
+    </div>
 @section Scripts
 {
 <script src="~/js/order.js"></script>

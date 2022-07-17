@@ -7,18 +7,24 @@ using TestCaseBusinessSolutions.DataAccess.Data;
 using TestCaseBusinessSolutions.DataAccess.Repository.IRepository;
 using TestCaseBusinessSolutions.Models;
 
-namespace TestCaseBusinessSolutions.DataAccess.Repository
+namespace TestCaseBusinessSolutions.DataAccess.Repository;
+
+public class OrderRepository : Repository<Order>, IOrderRepository
 {
-    public class OrderRepository : Repository<Order>, IOrderRepository
+    private ApplicationDbContext _db;
+    public OrderRepository(ApplicationDbContext db) : base(db)
     {
-        private ApplicationDbContext _db;
-        public OrderRepository(ApplicationDbContext db) : base(db)
+        _db = db;
+    }
+    public void Update(Order obj)
+    {
+        _db.Orders.Update(obj);
+        var objFromDb = _db.Orders.FirstOrDefault(u => u.Id == obj.Id);
+        if (objFromDb != null)
         {
-            _db = db;
-        }
-        public void Update(Order obj)
-        {
-            _db.Orders.Update(obj);
+            objFromDb.Number = obj.Number;
+            objFromDb.Date = obj.Date;
+            objFromDb.ProviderId = obj.ProviderId;
         }
     }
 }

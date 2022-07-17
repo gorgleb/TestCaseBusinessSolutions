@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestCaseBusinessSolutions.Models;
 
 namespace TestCaseBusinessSolutions.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IOrderItemRepository:IRepository<OrderItem>
     {
-        IProviderRepository Provider { get; }
-
-        IOrderRepository Order { get; }
-        IOrderItemRepository OrderItem { get; }
-        public void Save();
+        void Update(OrderItem obj);
     }
 }

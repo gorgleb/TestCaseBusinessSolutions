@@ -8,6 +8,7 @@
                 <h2 class="text-primary">@(Model.Order.Id!=0?"Update":"Create") Order</h2>
                 <hr />
             </div>
+            
             <div class="mb-3">
                 <label asp-for="Order.Number"></label>
                 <input asp-for="Order.Number" class="form-control" />
@@ -24,19 +25,55 @@
                 <select asp-for="Order.ProviderId" asp-items="@Model.ProviderList" class="form-select">
                     <option disabled-selected>--Select Provider--</option>
                 </select>
-                <span asp-validation-for="Order.ProviderId" class="text-danger"></span>
+                <span asp-validation-for="Order.Provider" class="text-danger"></span>
             </div>
-            
+            <div class="row pt-4">
+            <div class="col-6 text-end">
+            <h2 class="text-primary">
+                Product List
+            </h2>
+             </div>
+            <div class="col-6 text-end">
+            <a  asp-controller="OrderItem" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>&nbsp;Create New Product
+            </a>
+              </div>
+                </div>
+            <table class="table table-bordered table-striped" id="tblData" style="width:100%">
+        <thead>
+            <tr>
+             
+                <th>
+                    Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Unit
+                </th>
+                
+                <th>
+                    Update
+                </th>
+                <th>
+                    Delete
+                </th>
+            </tr>
+        </thead>
+
+    </table>
             <div class="col-12">
                 @if(Model.Order.Id!=0)
             {
-            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+            <button type="submit"  class="btn btn-primary" style="width:150px">Update</button>
             }
             else
             {
-            <button type="submit"  class="btn btn-primary" style="width:150px">Create</button>
+            <button type="submit"   class="btn btn-primary" style="width:150px">Create</button>
             }
-            <a asp-controller="Order" asp-action="Index" class="btn btn-primary" style="width:150px">
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="width:150px">
                 Back to list    
             </a>
             </div> 
@@ -52,5 +89,7 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+    <script src="~/js/orderItem.js"></script>
+   
     
 }

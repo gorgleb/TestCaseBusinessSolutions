@@ -1,41 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using TestCaseBusinessSolutions.DataAccess.Repository.IRepository;
 using TestCaseBusinessSolutions.Models;
 using TestCaseBusinessSolutions.Models.ViewModels;
 
 namespace TestCaseBusinessSolutions.Web.Controllers
 {
-    public class OrderController:Controller
+    public class OrderItemController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-     
-        public OrderController(IUnitOfWork unitOfWork)
+
+        public OrderItemController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult Upsert(int? id)
         {
-            OrderVM orderVM = new()
-            {
-                Order = new(),
-                ProviderList = _unitOfWork.Provider.GetAll().Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                }),
+            OrderItem orderItem = new();
             
-
-            };
             if (id == 0 || id == null)
             {
 
-                return View(orderVM);
+                return View(orderItem);
             }
             else
             {
-                orderVM.Order = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == id);
-                return View(orderVM);
+                orderItem = _unitOfWork.OrderItem.GetFirstOrDefault(u => u.Id == id);
+                return View(orderItem);
             }
 
 
@@ -43,26 +37,26 @@ namespace TestCaseBusinessSolutions.Web.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(OrderVM obj)
+        public IActionResult Upsert(OrderItem obj)
         {
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
 
-                if (obj.Order.Id == 0)
+                if (obj.Id == 0)
                 {
-                    _unitOfWork.Order.Add(obj.Order);
+                    _unitOfWork.OrderItem.Add(obj);
                     TempData["success"] = "Product  created sucessfully";
                 }
                 else
                 {
-                    _unitOfWork.Order.Update(obj.Order);
+                    _unitOfWork.OrderItem.Update(obj);
                     TempData["success"] = "Product  updated sucessfully";
                 }
                 _unitOfWork.Save();
                 return RedirectPermanent("/Home/Index");
-            }
-            return View(obj);
+            //}
+            //return View(obj);
 
         }
         public IActionResult Delete(int? id)
@@ -71,24 +65,24 @@ namespace TestCaseBusinessSolutions.Web.Controllers
             {
                 return NotFound();
             }
-            var orderFromDbFirst = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == id);
-            if (orderFromDbFirst == null)
+            var orderItemFromDbFirst = _unitOfWork.OrderItem.GetFirstOrDefault(u => u.Id == id);
+            if (orderItemFromDbFirst == null)
             {
                 return NotFound();
             }
-            return View(orderFromDbFirst);
+            return View(orderItemFromDbFirst);
         }
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == id);
+            var obj = _unitOfWork.OrderItem.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Order.Remove(obj);
+            _unitOfWork.OrderItem.Remove(obj);
             _unitOfWork.Save();
             return RedirectPermanent("/Home/Index");
 
@@ -100,15 +94,16 @@ namespace TestCaseBusinessSolutions.Web.Controllers
         public IActionResult GetAll()
         {
 
-            IEnumerable<Order> orders;
-            
-            orders = _unitOfWork.Order.GetAll(includeProperties: "Provider");
-            
-            
-           
-            
-            return new JsonResult(new { data = orders });
+            IEnumerable<OrderItem> orderItems;
+
+            orderItems = _unitOfWork.OrderItem.GetAll();
+
+
+
+
+            return new JsonResult(new { data = orderItems });
         }
         #endregion
     }
 }
+

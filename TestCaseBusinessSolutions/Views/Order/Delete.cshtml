@@ -1,0 +1,38 @@
+﻿@using TestCaseBusinessSolutions.Models
+
+
+    @model Order
+
+    <form method="post" asp-action="DeletePost">
+        <input asp-for="Id" hidden />
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Delete Order</h2>
+                <hr />
+            </div>
+            @*<div asp-validation-summary="All"></div>*@
+            <div class="mb-3">
+                <label asp-for="Number"></label>
+                <input asp-for="Number" disabled class="form-control" />
+            
+            </div>
+             <div class="mb-3">
+                <label asp-for="Date"></label>
+                <input asp-for="Date" disabled class="form-control" />
+            
+            </div>
+        
+           
+            <button type="submit" class="btn btn-primary" style="width:150px">Delete</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="width:150px">
+                Back to list
+            </a>
+        </div>
+    </form>
+    @section Scripts
+    {
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }
+

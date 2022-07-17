@@ -5,19 +5,18 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Order/GetAll"
+            "url": "/OrderItem/GetAll"
         },
         "columns": [
-            { "data": "id", "width": "5%" },
-            { "data": "number", "width": "25%" },
-            { "data": "date", "width": "15%" },
-            { "data": "provider.name", "width": "15%" },
-              {
+            { "data": "name", "width": "15%" },
+            { "data": "quantity", "width": "15%" },
+            { "data": "unit", "width": "15%" },
+            {
                 "data": "id",
                 "render": function (data) {
                     return `
                        <div class="w-75 h-75 btn-group" role="group">
-                        <a href="/Order/Upsert?id=${data}"
+                        <a href="/OrderItem/Upsert?id=${data}"
                         class="btn btn-primary mx-2" ><i class="bi bi-pencil-square"></i></a>
                     </div>
                      `
@@ -29,15 +28,13 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                        <div class="w-75 h-75 btn-group" role="group">
-                        <a href="/Order/Delete?id=${data}"
+                        <a href="/OrderItem/Delete?id=${data}"
                         class="btn btn-primary mx-2" ><i class="bi bi-trash"></i></a>
                     </div>
                      `
                 },
                 "width": "15%"
             },
-          
-            
 
         ]
     });
